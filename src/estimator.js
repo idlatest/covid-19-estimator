@@ -1,19 +1,21 @@
-const currentlyInfected = (reportedCases, multiplier) => reportedCases * multiplier;
-
-const infectionsByRequestedTime = (currentlyInfectedCount, periodType, timeToElapse) => {
-  let factor;
+const normaliseDurationToDays = (periodType, duration) => {
+  let days;
 
   if (periodType === 'days') {
-    factor = 2 ** Math.trunc(timeToElapse / 3);
+    days = duration;
   } else if (periodType === 'weeks') {
-    const days = timeToElapse * 7;
-
-    factor = 2 ** Math.trunc(days / 3);
+    days = duration * 7;
   } else {
-    const days = timeToElapse * 30;
-
-    factor = 2 ** Math.trunc(days / 3);
+    days = duration * 30;
   }
+
+  return days;
+};
+
+const currentlyInfected = (reportedCases, multiplier) => reportedCases * multiplier;
+
+const infectionsByRequestedTime = (currentlyInfectedCount, days) => {
+  const factor = 2 ** Math.trunc(days / 3);
 
   return currentlyInfectedCount * factor;
 };
@@ -30,21 +32,30 @@ const hospitalBedsByRequestedTime = (totalHospitalBeds, cases) => {
   return Math.trunc(availableBeds - cases);
 };
 
+const casesForICUByRequestedTime = (infections) => Math.trunc((5 / 100) * infections);
+
+const casesForVentilatorsByRequestedTime = (infections) => Math.trunc((2 / 100) * infections);
+
+const dollarsInFlight = (infections, avgDailyIncomeInUSD, avgDailyIncomePopulation, days) => {
+  const result = Math.trunc((infections * avgDailyIncomeInUSD * avgDailyIncomePopulation) / days);
+  return result;
+};
+
 const covid19ImpactEstimator = (data) => {
   // currentlyInfected
   const iCurrentlyInfected = currentlyInfected(data.reportedCases, 10);
   const sCurrentlyInfected = currentlyInfected(data.reportedCases, 50);
 
+  const days = normaliseDurationToDays(data.periodType, data.timeToElapse);
+
   // infectionsByRequestedTime
   const iInfectionsByRequestedTime = infectionsByRequestedTime(
     iCurrentlyInfected,
-    data.periodType,
-    data.timeToElapse
+    days
   );
   const sInfectionsByRequestedTime = infectionsByRequestedTime(
     sCurrentlyInfected,
-    data.periodType,
-    data.timeToElapse
+    days
   );
 
   // severeCasesByRequestedTime
@@ -66,6 +77,38 @@ const covid19ImpactEstimator = (data) => {
     sSevereCasesByRequestedTime
   );
 
+  // casesForICUByRequestedTime
+  const iCasesForICUByRequestedTime = casesForICUByRequestedTime(
+    iInfectionsByRequestedTime
+  );
+  const sCasesForICUByRequestedTime = casesForICUByRequestedTime(
+    sInfectionsByRequestedTime
+  );
+
+  // casesForVentilatorsByRequestedTime
+  const iCasesForVentilatorsByRequestedTime = casesForVentilatorsByRequestedTime(
+    iInfectionsByRequestedTime
+  );
+  const sCasesForVentilatorsByRequestedTime = casesForVentilatorsByRequestedTime(
+    sInfectionsByRequestedTime
+  );
+
+  // dollarsInFlight
+  const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = data.region;
+
+  const iDollarsInFlight = dollarsInFlight(
+    iInfectionsByRequestedTime,
+    avgDailyIncomeInUSD,
+    avgDailyIncomePopulation,
+    days
+  );
+  const sDollarsInFlight = dollarsInFlight(
+    iInfectionsByRequestedTime,
+    avgDailyIncomeInUSD,
+    avgDailyIncomePopulation,
+    days
+  );
+
   const input = data;
 
   return {
@@ -74,13 +117,19 @@ const covid19ImpactEstimator = (data) => {
       currentlyInfected: iCurrentlyInfected,
       infectionsByRequestedTime: iInfectionsByRequestedTime,
       severeCasesByRequestedTime: iSevereCasesByRequestedTime,
-      hospitalBedsByRequestedTime: iHospitalBedsByRequestedTime
+      hospitalBedsByRequestedTime: iHospitalBedsByRequestedTime,
+      casesForICUByRequestedTime: iCasesForICUByRequestedTime,
+      casesForVentilatorsByRequestedTime: iCasesForVentilatorsByRequestedTime,
+      dollarsInFlight: iDollarsInFlight
     }, // your best case estimation
     severeImpact: {
       currentlyInfected: sCurrentlyInfected,
       infectionsByRequestedTime: sInfectionsByRequestedTime,
       severeCasesByRequestedTime: sSevereCasesByRequestedTime,
-      hospitalBedsByRequestedTime: sHospitalBedsByRequestedTime
+      hospitalBedsByRequestedTime: sHospitalBedsByRequestedTime,
+      casesForICUByRequestedTime: sCasesForICUByRequestedTime,
+      casesForVentilatorsByRequestedTime: sCasesForVentilatorsByRequestedTime,
+      dollarsInFlight: sDollarsInFlight
     }
   };
 };
