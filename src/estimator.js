@@ -103,7 +103,7 @@ const covid19ImpactEstimator = (data) => {
     days
   );
   const sDollarsInFlight = dollarsInFlight(
-    iInfectionsByRequestedTime,
+    sInfectionsByRequestedTime,
     avgDailyIncomeInUSD,
     avgDailyIncomePopulation,
     days
