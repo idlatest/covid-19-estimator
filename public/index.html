@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <title>Covid19 Estimator</title>
+</head>
+<body class="text-gray-900">
+    <main class="h-screen flex justify-center items-center">
+      <form class="w-full max-w-lg border-2 border-gray-200 p-6 rounded-md">
+        <h1 class="text-3xl text-center mb-12 text-gray-800">Covid19 Estimator</h1>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="population">
+              Population
+            </label>
+            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="population" type="text" placeholder="0" data-population="66622705">
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="time-to-elapse">
+              Time to Elapse
+            </label>
+            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="time-to-elapse" type="text" placeholder="0" data-time-to-elapse="58">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="report-cases">
+              Reported Cases
+            </label>
+            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="report-cases" type="text" placeholder="0" data-reported-cases="674">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="total-hospital-beds">
+              Total Hospital Beds
+            </label>
+            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="total-hospital-beds" type="text" placeholder="0" data-total-hospital-beds="1380614">
+          </div>
+        </div>
+        <div class="-mx-3 mb-6">
+          <div class="px-3">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="period-type">
+              Period Type
+            </label>
+            <div class="relative">
+              <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="period-type" data-period-type="days">
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+                <option value="months">Months</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="-mx-3 mb-2">
+          <div class="w-full flex flex-wrap justify-end mb-6 md:mb-0 px-3">
+            <input class="appearance-none block bg-indigo-500 text-white rounded py-3 px-4 cursor-pointer leading-tight focus:outline-none focus:bg-indigo-400 focus:border-gray-500" value="Estimate" id="submit-button" type="submit" data-go-estimate="1380614">
+          </div>
+        </div>
+      </form>
+    </main>
+</body>
+</html>
