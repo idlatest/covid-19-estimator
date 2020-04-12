@@ -1,9 +1,21 @@
 const currentlyInfected = (reportedCases, multiplier) => reportedCases * multiplier;
 
-const infectionsByRequestedTime = (currentlyInfectedCount) => {
-  const infections = Math.abs(currentlyInfectedCount * (2 ** 9));
+const infectionsByRequestedTime = (currentlyInfectedCount, periodType, timeToElapse) => {
+  let factor;
 
-  return infections - Math.floor(infections);
+  if (periodType === 'days') {
+    factor = 2 ** Math.trunc(timeToElapse / 3);
+  } else if (periodType === 'weeks') {
+    const days = timeToElapse * 7;
+
+    factor = 2 ** Math.trunc(days / 3);
+  } else {
+    const days = timeToElapse * 30;
+
+    factor = 2 ** Math.trunc(days / 3);
+  }
+
+  return currentlyInfectedCount * factor;
 };
 
 const covid19ImpactEstimator = (data) => {
@@ -12,8 +24,16 @@ const covid19ImpactEstimator = (data) => {
   const sImpactCurrentlyInfected = currentlyInfected(data.reportedCases * 50);
 
   // infectionsByRequestedTime
-  const iInfectionsByRequestedTime = infectionsByRequestedTime(iCurrentlyInfected);
-  const sImpactInfectionsByRequestedTime = infectionsByRequestedTime(sImpactCurrentlyInfected);
+  const iInfectionsByRequestedTime = infectionsByRequestedTime(
+    iCurrentlyInfected,
+    data.periodType,
+    data.timeToElapse
+  );
+  const sImpactInfectionsByRequestedTime = infectionsByRequestedTime(
+    sImpactCurrentlyInfected,
+    data.periodType,
+    data.timeToElapse
+  );
 
   const input = data;
 
