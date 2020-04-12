@@ -20,8 +20,8 @@ const infectionsByRequestedTime = (currentlyInfectedCount, periodType, timeToEla
 
 const covid19ImpactEstimator = (data) => {
   // currentlyInfected
-  const iCurrentlyInfected = currentlyInfected(data.reportedCases * 10);
-  const sImpactCurrentlyInfected = currentlyInfected(data.reportedCases * 50);
+  const iCurrentlyInfected = currentlyInfected(data.reportedCases, 10);
+  const sImpactCurrentlyInfected = currentlyInfected(data.reportedCases, 50);
 
   // infectionsByRequestedTime
   const iInfectionsByRequestedTime = infectionsByRequestedTime(
@@ -49,5 +49,6 @@ const covid19ImpactEstimator = (data) => {
     }
   };
 };
+
 
 export default covid19ImpactEstimator;
