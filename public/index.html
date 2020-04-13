@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Andela BuildforSDG Covid19 estimator challenge assessment ">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <title>Covid19 Estimator</title>
+</head>
+<body>
+    <main>
+      <form>
+        <span class="caption">Andela</span>
+        <h1 class="heading">Covid19 Estimator</h1>
+        <h3 class="sub-heading">BuildforSDG challenge</h3>
+        <div class="row">
+          <div class="col-1-2">
+            <label for="population">
+              Population
+            </label>
+            <input id="population" type="text" placeholder="0" data-population="66622705">
+          </div>
+          <div class="col-1-2">
+            <label for="time-to-elapse">
+              Time to Elapse
+            </label>
+            <input id="time-to-elapse" type="text" placeholder="0" data-time-to-elapse="58">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1-2">
+            <label for="report-cases">
+              Reported Cases
+            </label>
+            <input id="report-cases" type="text" placeholder="0" data-reported-cases="674">
+          </div>
+          <div class="col-1-2">
+            <label for="total-hospital-beds">
+              Total Hospital Beds
+            </label>
+            <input id="total-hospital-beds" type="text" placeholder="0" data-total-hospital-beds="1380614">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1-1">
+            <label for="period-type">
+              Period Type
+            </label>
+            <div class="input-group">
+              <select id="period-type" data-period-type="days">
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+                <option value="months">Months</option>
+              </select>
+              <div class="input-icon">
+                <svg class="input-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="button-row">
+            <input value="Estimate" id="submit-button" type="submit" data-go-estimate="1380614">
+          </div>
+        </div>
+      </form>
+    </main>
+</body>
+</html>
